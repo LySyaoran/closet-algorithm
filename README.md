@@ -1,37 +1,59 @@
 # Đồ án môn học Khai thác dữ liệu
 
-Repository này là đồ án môn học Khai thác dữ liệu. Triển khai thuật toán **Closet+** từ lý thuyết lên thành code với ngôn ngữ là **Python**.
+Repository này là đồ án môn học Khai thác dữ liệu. Triển khai thuật toán **Closet+** từ lý thuyết lên thành code với ngôn ngữ **Python**.
 
 ## Cấu trúc dự án
 
-Chia làm 2 phần: **backend**, **frontend**
+Dự án chia làm 2 phần chính:
 
-- **backend**: chạy thuật toán Closet+ và triển khai Flask API  
-- **frontend**: nhận dữ liệu từ API của server, vẽ ra cây FP Tree và hiển thị kết quả
+- **Backend**: Chạy thuật toán Closet+ và triển khai Flask API.  
+- **Frontend**: Nhận dữ liệu từ API của server, vẽ cây FP-Tree và hiển thị kết quả.
 
-## Cách chạy repo
+---
 
-- **Chạy server**:
-    + Cài những gói cần thiết cho server từ file `requirement.txt`
-    + Vào thư mục backend: `cd backend`
-    + Chạy server: `python app.py`
-    
-- **Chạy client**:
-    + Cài đặt thư viện: `npm install`
-    + Chạy dev server: `npm run dev`
+## Cách chạy repository
 
-## Chi tiết chức năng folder, file:
+### Chạy server (backend):
 
+1. Cài đặt các gói cần thiết:
+    ```bash
+    pip install -r requirement.txt
+    ```
+2. Di chuyển vào thư mục backend:
+    ```bash
+    cd backend
+    ```
+3. Chạy server:
+    ```bash
+    python app.py
+    ```
+
+### Chạy client (frontend):
+
+1. Cài đặt các package:
+    ```bash
+    npm install
+    ```
+2. Chạy ứng dụng:
+    ```bash
+    npm run dev
+    ```
+
+---
+
+## Cấu trúc thư mục & chức năng:
+
+```plaintext
 /backend/
-├── /processed/ # Chứa các file CSV sau khi chuẩn hóa từ uploads
-├── /uploads/ # Chứa file CSV upload từ frontend
-├── app.py # Flask API, chứa các route, file chạy chính của server
-├── closetPlus.py # Chứa logic thuật toán Closet+
-└── requirement.txt # Danh sách các package Python cần cài
+├── /processed/           # Chứa các file CSV đã chuẩn hóa từ thư mục uploads
+├── /uploads/             # Chứa file CSV đầu vào được upload từ giao diện người dùng
+├── app.py                # File chính triển khai Flask API, chứa các route chính
+├── closetPlus.py         # Chứa logic thuật toán Closet+
+└── requirement.txt       # Danh sách các package cần thiết cho server
 
-/frontend/ (Những phần quan trọng)
+/frontend/ (những phần quan trọng)
 ├── /components/
-│ ├── FileUploader.jsx # Upload file CSV, nhập input, gọi API để lấy dữ liệu
-│ ├── ResultDisplay.jsx # Hiển thị kết quả sau xử lý
-│ └── Visualizer.jsx # Vẽ cây FP Tree từ dữ liệu
-└── App.jsx # Gọi các component trên, truyền dữ liệu giữa chúng
+│   ├── FileUploader.jsx  # Upload file CSV, nhập tham số, gọi API lấy dữ liệu
+│   ├── ResultDisplay.jsx # Nhận dữ liệu và hiển thị kết quả
+│   └── Visualizer.jsx    # Vẽ cây FP-Tree từ dữ liệu
+└── App.jsx               # Gọi các component trên, truyền dữ liệu giữa chúng
