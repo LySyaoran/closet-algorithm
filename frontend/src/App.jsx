@@ -32,12 +32,11 @@ function App() {
         {data && (
           <div className="right-panel slide-in">
             <ResultDisplay result={data} />
-            {/* <Visualizer steps={data.patterns} /> */}
           </div>
         )}
       </div>
 
-      {data && <Visualizer steps={data.patterns} />}
+      {data && <Visualizer data={data} />}
     </div>
   );
 }

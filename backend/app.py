@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
 from closetPlus import getDataProcessed_csv, find_closedFrequent_patterns_bottomUp, generate_association_rules
+from closetPlus import FPTree as fp
 
 app = Flask(__name__)
 CORS(app)
@@ -35,15 +36,19 @@ def upload_file():
         transactions = getDataProcessed_csv(filepath)
         print("Kết quả từ hàm getDataProcessed_csv:", transactions)
 
-        results, _= find_closedFrequent_patterns_bottomUp(transactions, minsup)
+        results, tree= find_closedFrequent_patterns_bottomUp(transactions, minsup)
         print("Kết quả từ hàm find_closedFrequent_patterns_bottomUp:", results)
+
+        if tree is None:
+            output_tree = []
+        else:
+            output_tree = fp.fp_tree_to_dict(tree)
 
         if results is None:
             output_results = []
         else:
             output_results = [{'pattern': list(k), 'support': v} for k, v in results.items()]
 
-        # Gọi hàm sinh luật
         if results is None:
             output_rules = []
         else:
@@ -51,7 +56,8 @@ def upload_file():
 
         return jsonify({
             'patterns': output_results,
-            'association_rules': output_rules
+            'association_rules': output_rules,
+            'tree': output_tree
         })
 
     except ValueError as e:

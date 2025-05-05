@@ -25,10 +25,7 @@ function FileUploader({ onResult }) {
     formData.append("minsup", decimalInput);
 
     try {
-      const res = await axios.post(
-        "https://closet-algorithm.onrender.com/upload",
-        formData
-      );
+      const res = await axios.post("http://127.0.0.1:5000/upload", formData);
       onResult(res.data);
       console.log("Upload successful:", res.data);
     } catch (err) {

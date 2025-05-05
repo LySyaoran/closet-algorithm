@@ -1,6 +1,4 @@
 import pandas as pd
-import os
-import json
 import itertools
 '''
     Cách itertools.combination(items, i) hoạt động: VD cho items = [A,B,C] và duyệt i từ [1;4)
@@ -9,12 +7,13 @@ import itertools
         + itertools.combinations(items, 3) = (A, B, C)
 '''
 from graphviz import Digraph  # biểu đồ để vẽ cây FP-tree
+# from IPython.display import Image, display  # để vẽ trực tiếp trên notebook
 from itertools import combinations
+import pandas as pd
 from mlxtend.frequent_patterns import association_rules
-
 '''
-    suffix (tiền tố): VD: root --> b --> f với support là 2 ==> prefix itemset = {bf:2} 
-    prefix (hậu tố): VD: root --> b --> f với support là 2 ==> suffix item = {f:2}
+    prefix (tiền tố): VD: root --> b --> f với support là 2 ==> prefix itemset = {bf:2} 
+    suffix (hậu tố): VD: root --> b --> f với support là 2 ==> suffix item = {f:2}
     -----> prefix = (tập phổ biến đã khai thác tại cây con) + (suffix)
 '''
 
@@ -157,8 +156,8 @@ class FPTree(object):
             node = self.root
 
         return {
-            "item": "Root" if node.item is None else node.item,
-            "count": 1 if node.count is None else node.count,
+            "item": node.item,
+            "count": node.count,
             "children": [self.fp_tree_to_dict(child) for child in node.children]
         }
 
@@ -610,7 +609,7 @@ def find_closedFrequent_patterns_bottomUp(transactions, support_threshold):
 
     # Nếu dữ liệu rỗng thì return None
     if any(None in key for key in closed_patterns):
-        return None, None
+        return None, tree
     return closed_patterns, tree
 
 
@@ -661,8 +660,10 @@ def generate_association_rules(transactions: list, frequent_itemsets_dict: dict,
             'Lift': round(row['lift'], 3)
         })
 
-    return formatted_rules
+    return pd.DataFrame(formatted_rules)
+    # return formatted_rules
 #--------------------------------------------------------------------------------------------------------
+
 
 
 # Xử lý chuyển đổi dữ liệu file csv thành dữ liệu có 2 thuộc tính: TID và Items
@@ -701,30 +702,20 @@ def data_preprocessing(file_path: str, new_file_name: str):
     return df_transactions
 
 # Lấy dữ liệu đã được xử lý từ file csv và thêm vào transactions
-def getDataProcessed_csv(file_path: str):
-    # Lấy tên gốc của file, ví dụ: 'a.csv' -> 'a'
-    base_name = os.path.basename(file_path)
-    name_only, _ = os.path.splitext(base_name)
-
-    # Tạo tên file mới và thư mục lưu trữ
-    processed_folder = 'processed'
-    os.makedirs(processed_folder, exist_ok=True)
-
-    new_file_name = f"{name_only}_processed"
-    full_processed_path = os.path.join(processed_folder, f"{new_file_name}.csv")
-
-    # Gọi hàm tiền xử lý và lưu kết quả vào file mới
-    data_preprocessing(file_path=file_path, new_file_name=os.path.join(processed_folder, new_file_name))
-
-    # Đọc file đã chuẩn hóa
+import os
+def getDataProcessed_csv (file_path: str):
+    # Tạo một file mới và lưu với cái tên là: tên file gốc + '_processed.csv'
+    ten_file_moi = os.path.splitext(os.path.basename(file_path))[0] + '_processed'
+    data_preprocessing(file_path=file_path, new_file_name=ten_file_moi)
+    
+    # lấy file_da_chuan_hoa.csv truyền dữ liệu vào transaction
+    lay_file_moi_csv = ten_file_moi + '.csv'
     try:
-        data = pd.read_csv(full_processed_path)
+        data = pd.read_csv(lay_file_moi_csv)
     except FileNotFoundError:
-        raise FileNotFoundError(f"Lỗi: Không tìm thấy tệp tại {full_processed_path}")
+        raise FileNotFoundError(f"Lỗi: Không tìm thấy tệp tại {lay_file_moi_csv}")
     except Exception as e:
         raise Exception(f"Lỗi khi đọc tệp: {e}")
-
-    # Tạo danh sách transactions
     transactions = data['Items'].apply(lambda x: x.split(','))
     transactions = transactions.tolist()
     return transactions
