@@ -1,0 +1,6 @@
+pandas
+flask
+flask-cors
+gunicorn
+graphviz
+mlxtend
