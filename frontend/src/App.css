@@ -1,0 +1,37 @@
+.main-container {
+    display: flex;
+    align-items: flex-start;
+    transition: all 0.5s ease;
+}
+
+.left-panel,
+.right-panel {
+    transition: all 0.5s ease;
+}
+
+/* Trạng thái ban đầu: cột trái chiếm toàn bộ, center */
+.full-width {
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Khi có dữ liệu: cột trái 30% */
+.left-3 {
+    width: 30%;
+    transform: translateX(0);
+    /* Trượt trái nhẹ nếu thích */
+}
+
+/* Cột phải: ban đầu ẩn + trượt vào */
+.right-panel {
+    width: 70%;
+    opacity: 0;
+    transform: translateX(50px);
+}
+
+/* Khi hiện: mượt vào từ phải */
+.slide-in {
+    opacity: 1;
+    transform: translateX(0);
+    margin-left: 20px;
+}
