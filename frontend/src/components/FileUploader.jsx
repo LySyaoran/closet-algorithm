@@ -22,14 +22,15 @@ function FileUploader({ onResult }) {
     if (!file) return;
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("decimalInput", decimalInput);
+    formData.append("minsup", decimalInput);
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/run-closet",
+        "https://closet-algorithm.onrender.com/upload",
         formData
       );
       onResult(res.data);
+      console.log("Upload successful:", res.data);
     } catch (err) {
       console.error("Upload failed:", err);
     }
