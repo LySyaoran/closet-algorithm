@@ -24,12 +24,15 @@ def upload_file():
     print(file)
     minsup = request.form['minsup']
     print(minsup)
+    min_confidence = request.form['min_confidence']
+    print(min_confidence)
 
     if not file or not minsup:
         return jsonify({'error': 'File or minsup is empty'}), 400
 
     try:
         minsup = float(minsup)
+        min_confidence = float(min_confidence)
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
         file.save(filepath)
 
@@ -52,7 +55,7 @@ def upload_file():
         if results is None:
             output_rules = []
         else:
-            output_rules = generate_association_rules(frequent_itemsets_dict=results, transactions=transactions, min_confidence=0.5)
+            output_rules = generate_association_rules(frequent_itemsets_dict=results, transactions=transactions, min_confidence=min_confidence)
 
         return jsonify({
             'patterns': output_results,
