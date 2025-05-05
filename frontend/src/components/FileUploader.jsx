@@ -6,6 +6,8 @@ function FileUploader({ onResult }) {
   const [error, setError] = useState("");
   const [decimalInput, setDecimalInput] = useState("");
   const [minConf, setMinConf] = useState(0.5);
+  const [error_minconf, setError_minconf] = useState("");
+
 
   const handleDecimalInput = (e) => {
     const value = e.target.value;
@@ -25,9 +27,9 @@ function FileUploader({ onResult }) {
     setMinConf(value);
 
     if (!minConfRegex.test(value)) {
-      setError("Vui lòng nhập số thập phân trong khoảng từ 0 đến 1.");
+      setError_minconf("Vui lòng nhập số thập phân trong khoảng từ 0 đến 1.");
     } else {
-      setError("");
+      setError_minconf("");
     }
   };
 
@@ -125,9 +127,9 @@ function FileUploader({ onResult }) {
           boxSizing: "border-box",
         }}
       />
-      {error && (
+      {error_minconf && (
         <p style={{ color: "red", margin: "5px 0", fontSize: "14px" }}>
-          {error}
+          {error_minconf}
         </p>
       )}
       <hr
