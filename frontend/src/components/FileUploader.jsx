@@ -39,7 +39,10 @@ function FileUploader({ onResult }) {
     formData.append("min_confidence", minConf);
 
     try {
-      const res = await axios.post("http://localhost:5000/upload", formData);
+      const res = await axios.post(
+        "https://closet-algorithm.onrender.com/upload",
+        formData
+      );
       onResult(res.data);
       console.log("Upload successful:", res.data);
     } catch (err) {
