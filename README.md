@@ -13,7 +13,8 @@ Dự án chia làm 2 phần chính:
 
 ## Dự án đã triển khai giao diện người dùng lên web
 
-- **URL Website**: [https://closet-algorithm.vercel.app.](https://closet-algorithm.vercel.app/) 
+- **URL Website**: [https://closet-algorithm.vercel.app.](https://closet-algorithm.vercel.app/)
+- **Web Server**: https://closet-algorithm.onrender.com
 
 ---
 
